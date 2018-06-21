@@ -428,13 +428,13 @@ html ="""
                         $("#form_send_tx")[0].reset();
                     }
                     else{
-                        if(status['message'].search("Invalid address format") >= 0){
+                        if(status['message'].search("ε°ε€ζ ΌεΌζ— ζ•") >= 0){
                             $('#send_address').parent().addClass('has-error');
                         }
-                        else if(status['message'].search("Payment id has invalid format") >= 0){
+                        else if(status['message'].search("δ»ζ¬ΎIDη„ζ ΌεΌζ— ζ•") >= 0){
                             $('#send_payment_id').parent().addClass('has-error');
                         }
-                        else if(status['message'].search("not enough money") >= 0){
+                        else if(status['message'].search("θµ„ι‡‘δΈθ¶³") >= 0){
                             $('#send_amount').parent().addClass('has-error');
                         }
                     }
@@ -458,7 +458,7 @@ html ="""
                     var html = "Address book empty!";
                     if(address_book.length > 0){
                         html = '<div id="address-book-box" class="table-responsive">'; 
-                        html += '<table class="table table-hover table-condensed"><thead><tr><th width="160px" style="border:none">Address</th><th width="150px" style="border:none">Payment ID</th><th width="200px" style="border:none">Description</th><th width="50px" style="border:none">&nbsp;</th></tr></thead><tbody>';
+                        html += '<table class="table table-hover table-condensed"><thead><tr><th width="160px" style="border:none">ε°ε€</th><th width="150px" style="border:none">δ»ζ¬ΎID</th><th width="200px" style="border:none">ζθΏ°</th><th width="50px" style="border:none">&nbsp;</th></tr></thead><tbody>';
                         var row_tmpl = $('#address_book_row_templ').html();
                         for(var i=0; i<address_book.length; i++){
                             var entry = address_book[i];
@@ -517,7 +517,7 @@ html ="""
                     if(tx.hasOwnProperty('destinations')){
                         var destinations = tx['destinations'];
                         for(var i=0; i < destinations.length; i++ ){
-                            dest_html += '<li>Amount: <span class="tx-list tx-amount tx-' + tx['status'] + '">' + printMoney(destinations[i]['amount']/1000000000) + "</span>Address: <strong>" + destinations[i]['address'] + "</strong></li>";
+                            dest_html += '<li>ι‡‘ιΆοΌ <span class="tx-list tx-amount tx-' + tx['status'] + '">' + printMoney(destinations[i]['amount']/1000000000) + "</span>ε°ε€οΌ <strong>" + destinations[i]['address'] + "</strong></li>";
                         }
                     }
                     
@@ -621,7 +621,7 @@ html ="""
                     //console.log(height);
                     if(height < target_height){
                         if($('#app_modal_progress').is(':visible')){
-                            msg = "Processing block# " + height;
+                            msg = "ζ­£ε¨ε¤„η†εΊε—ε· " + height;
                             if( target_height > 0 ) msg += "/" + target_height;
                             $('#app_modal_progress_subtext').html(msg);
                             $('#app_modal_progress_subtext').show();
@@ -635,7 +635,7 @@ html ="""
             
             function delete_address(index){
                 hide_app_dialog();
-                show_progress("Deleting address book entry...");
+                show_progress("ζ­£ε¨ε ι™¤ε°ε€η°Ώζ΅η›®γ€‚γ€‚γ€‚");
                 app_hub.delete_address_book(index);
                 return false;
             }
@@ -647,13 +647,13 @@ html ="""
                     var current_height = status['current_height'];
                     var target_height = status['target_height'];
                     sync_pct = target_height > 0 ? parseInt(current_height*100/target_height) : 0;
-                    var status_text = "Network: " + daemon_status;
+                    var status_text = "η½‘η»οΌ " + daemon_status;
                     if(daemon_status == "Connected"){
                         if(sync_pct == 100){
-                            status_text = '<i class="fa fa-rss fa-flip-horizontal"></i>&nbsp;&nbsp;Network synchronized';
+                            status_text = '<i class="fa fa-rss fa-flip-horizontal"></i>&nbsp;&nbsp;η½‘η»ε·²εζ­¥';
                         }
                         else {
-                            status_text = '<i class="fa fa-refresh"></i>&nbsp;&nbsp;Synchronizing...';
+                            status_text = '<i class="fa fa-refresh"></i>&nbsp;&nbsp;ζ­£ε¨εζ­¥γ€‚γ€‚γ€‚';
                         }
                     }
                     status_text += " " + current_height + "/" + target_height + " (<strong>" + sync_pct + "%</strong>)";
@@ -847,11 +847,11 @@ html ="""
                 
                 if(!amount || amount < 0)
                 {
-                    errors.push("Send amount must be a positive number!");
+                    errors.push("ε‘ι€ι‡‘ιΆεΏ…ι΅»ζ―ζ­£ζ•°οΌ");
                     $('#send_amount').parent().addClass('has-error');
                 }
                 else if(amount > current_unlocked_balance){
-                    errors.push("Send amount is more than unlocked balance!");
+                    errors.push("ε‘ι€ι‡‘ιΆθ¶…θΏ‡θ§£ι”δ½™ιΆοΌ");
                     $('#send_amount').parent().addClass('has-error');
                 }
                 else{
@@ -863,14 +863,14 @@ html ="""
                 
                 var address = $('#send_address').val();
                 if(!address){
-                    errors.push("Address is required!");
+                    errors.push("εΏ…ι΅»ε΅«ε†™ε°ε€");
                     $('#send_address').parent().addClass('has-error');
                 }
                 else if(!((address.substr(0, 4) == "Sumo" && address.length == 99) || 
                     (address.substr(0, 4) == "Sumi"  && address.length == 110) || 
                     (address.substr(0, 4) == "Subo"  && address.length == 98)))
                 {
-                    errors.push("Address is not valid!");
+                    errors.push("ε°ε€ζ— ζ•");
                     $('#send_address').parent().addClass('has-error');
                 }
                 else{
@@ -879,7 +879,7 @@ html ="""
                 
                 var payment_id = $('#send_payment_id').val().trim();
                 if(payment_id && !(payment_id.length == 16 || payment_id.length == 64)){
-                    errors.push("Payment ID must be a 16 or 64 hexadecimal-characters string!");
+                    errors.push("δ»ζ¬ΎIDεΏ…ι΅»ζ―16ζ–64δΈεε…­θΏ›ε¶ε­—η¬¦δΈ²");
                     $('#send_payment_id').parent().addClass('has-error');
                 }
                 else{
@@ -901,13 +901,13 @@ html ="""
                 var mixin = $('#send_mixins').val();
                 
                 btn_send_tx.disable(true);
-                show_progress("Sending coins... This can take a while for big amount...");
+                show_progress("ζ­£ε¨ε‘ι€θ΄§εΈγ€‚θ―·θ€εΏƒη­‰εΎ…γ€‚");
                 app_hub.send_tx(amount, address, payment_id, priority, mixin, tx_desc, $('#checkbox_save_address').is(":checked"), sweep_all);
                 return false;
             }
             
             function generate_payment_id(){
-                show_progress("Generating payment ID, integrated address...");
+                show_progress("ζ­£ε¨η”ζδ»ζ¬ΎIDγ€ι›†ζε°ε€γ€‚γ€‚γ€‚");
                 app_hub.generate_payment_id(16);
                 return false;
             }
@@ -960,7 +960,7 @@ html ="""
             
             
             function show_address_book(){
-                show_progress("Loading address book...");
+                show_progress("ζ­£ε¨ε θ½½ε°ε€η°Ώγ€‚γ€‚γ€‚");
                 app_hub.load_address_book();
                 return false;
             }
@@ -1030,7 +1030,7 @@ html ="""
             }
             
             function restart_daemon(){
-                show_app_progress("Restarting daemon...");
+                show_app_progress("ζ­£ε¨ι‡ε―ε®ζ¤θΏ›η¨‹γ€‚γ€‚γ€‚");
                 app_hub.restart_daemon();
                 return false;
             }
@@ -1113,19 +1113,19 @@ html ="""
     <body>
         <div class="container">
             <ul class="nav nav-tabs">
-              <li><a data-toggle="tab" href="#receive_tab"><i class="fa fa-arrow-circle-o-down"></i> Receive</a></li>
-              <li class="active"><a data-toggle="tab" href="#balance_tab"><i class="fa fa-money"></i> Wallet</a></li>
-              <li><a data-toggle="tab" href="#send_tab"><i class="fa fa-send-o"></i> Send</a></li>
-              <li><a data-toggle="tab" href="#tx_history_tab"><i class="fa fa-history"></i> TX History</a></li>
-              <li><a data-toggle="tab" href="#settings_tab"><i class="fa fa-cogs"></i> Settings</a></li>
+              <li><a data-toggle="tab" href="#receive_tab"><i class="fa fa-arrow-circle-o-down"></i> ζ”¶ζ¬Ύ</a></li>
+              <li class="active"><a data-toggle="tab" href="#balance_tab"><i class="fa fa-money"></i> ι’±ε…</a></li>
+              <li><a data-toggle="tab" href="#send_tab"><i class="fa fa-send-o"></i> ζ±‡ζ¬Ύ</a></li>
+              <li><a data-toggle="tab" href="#tx_history_tab"><i class="fa fa-history"></i> δΊ¤ζ“ε†ε²</a></li>
+              <li><a data-toggle="tab" href="#settings_tab"><i class="fa fa-cogs"></i> θ®Ύη½®</a></li>
             </ul>
             <div class="tab-content" style="height:490px; margin-top:20px;">
                 <div id="receive_tab" class="tab-pane fade">
-                    <h3>RECEIVE</h3>
+                    <h3>ζ”¶ζ¬Ύ</h3>
                     <form id="form_receive" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <label for="receive_address" class="col-xs-2 control-label">Main Address</label>
+                                <label for="receive_address" class="col-xs-2 control-label">δΈ»ε°ε€</label>
                                 <div class="col-xs-10 input-group" style="padding-left: 15px; padding-right: 15px;">
                                     <input id="receive_address" type="text" class="form-control" style="font-weight: bold" maxlength="64" readonly />
                                     <span class="input-group-btn">
@@ -1141,7 +1141,7 @@ html ="""
                           <div class="panel-heading" role="tab" id="headingOne">
                             <h4 class="panel-title">
                             <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                              Used Addresses
+                              ε·²η”¨ε°ε€
                             </a>
                           </h4>
                           </div>
@@ -1151,9 +1151,9 @@ html ="""
                                     <table id="table_used_subaddresses" class="table table-hover table-striped table-condensed">
                                         <thead>
                                             <tr>
-                                                <th>Address</th>
-                                                <th style="text-align: right">Balance</th>
-                                                <th style="text-align: right">Unlocked</th>
+                                                <th>ε°ε€</th>
+                                                <th style="text-align: right">δ½™ιΆ</th>
+                                                <th style="text-align: right">θ§£ι”δ½™ιΆ</th>
                                                 <th style="text-align: right">Index</th>
                                                 <th>&nbsp;</th>
                                             </tr>
@@ -1169,7 +1169,7 @@ html ="""
                           <div class="panel-heading" role="tab" id="headingTwo">
                             <h4 class="panel-title">
                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                              New (Ghost) Addresses
+                              ζ–°οΌεΉ»ε½±οΌ‰ε°ε€
                             </a>
                           </h4>
                           </div>
@@ -1179,7 +1179,7 @@ html ="""
                                     <table id="table_new_subaddresses" class="table table-hover table-striped table-condensed">
                                         <thead>
                                             <tr>
-                                                <th>Address</th>
+                                                <th>ε°ε€</th>
                                                 <th style="text-align: right">Index</th>
                                                 <th>&nbsp;</th>
                                             </tr>
@@ -1198,48 +1198,48 @@ html ="""
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="col-xs-6">
-                                <h5><i class="fa fa-fw fa-balance-scale"></i> Balance:</h5>
-                                <h5><i class="fa fa-fw fa-unlock"></i> Unlocked Balance:</h5>
+                                <h5><i class="fa fa-fw fa-balance-scale"></i> δ½™ιΆοΌ</h5>
+                                <h5><i class="fa fa-fw fa-unlock"></i> θ§£ι”δ½™ιΆοΌ</h5>
                             </div>
                             <div class="col-xs-6" style="text-align:right">
-                                <h5><span id="balance">0.000000000</span> <small>SUMO</small> <span class="syncing"> (syncing)</span></h5>
-                                <h5><span id="unlocked_balance">0.000000000</span> <small>SUMO</small> <span class="syncing"> (syncing)</span></h5>
+                                <h5><span id="balance">0.000000000</span> <small>SUMO</small> <span class="syncing"> οΌζ­£ε¨εζ­¥οΌ‰</span></h5>
+                                <h5><span id="unlocked_balance">0.000000000</span> <small>SUMO</small> <span class="syncing"> οΌζ­£ε¨εζ­¥οΌ‰</span></h5>
                             </div>
                             <div class="col-xs-12" style="margin-top: 10px">
-                                <button id="btn_rescan_spent" type="button" class="btn btn-primary" onclick="rescan_spent()" disabled><i class="fa fa-sort-amount-desc"></i> Rescan Spent</button>
-                                <button id="btn_rescan_bc" type="button" class="btn btn-primary" style="margin-left: 20px;" onclick="rescan_bc()" disabled><i class="fa fa-repeat"></i> Rescan Blockchain</button>
+                                <button id="btn_rescan_spent" type="button" class="btn btn-primary" onclick="rescan_spent()" disabled><i class="fa fa-sort-amount-desc"></i> ι‡ζ–°ζ‰«ζε¨η”¨θΎ“ε‡Ί</button>
+                                <button id="btn_rescan_bc" type="button" class="btn btn-primary" style="margin-left: 20px;" onclick="rescan_bc()" disabled><i class="fa fa-repeat"></i> ι‡ζ–°ζ‰«ζεΊε—ι“Ύ</button>
                             </div>
                         </div>
                     </div>
                     <hr style="margin-top:20px;margin-bottom:10px;">
-                    <h3>RECENT TRANSACTIONS</h3>
+                    <h3>ζ€θΏ‘δΊ¤ζ“ε†ε²</h3>
                     <div class="row" id="recent_txs">
-                       <h4 style="color:#ddd;text-align:center;margin-top:70px;">NO TRANSACTIONS FOUND</h4>
+                       <h4 style="color:#ddd;text-align:center;margin-top:70px;">ζζ‰Ύε°δΊ¤ζ“</h4>
                     </div>
                 </div>
                 <div id="send_tab" class="tab-pane fade">
-                    <h3>SEND</h3>
+                    <h3>ζ±‡ζ¬Ύ</h3>
                     <form id="form_send_tx" class="form-horizontal">
                         <fieldset>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <label for="send_amount" class="col-xs-2 control-label">Amount</label>
+                                    <label for="send_amount" class="col-xs-2 control-label">ι‡‘ιΆ</label>
                                     <div class="col-xs-10 input-group" style="padding-left: 15px;padding-right: 15px;">
                                         <input id="send_amount" type="text" class="form-control" placeholder="0.0" maxlength="255"/>
                                         <span class="input-group-btn">
-                                            <button id="btn_fill_all_money" class="btn btn-primary btn-sm"  style="text-transform: none" type="button" tabindex="-1" onclick="fill_all_money()" disabled>All coins</button>
+                                            <button id="btn_fill_all_money" class="btn btn-primary btn-sm"  style="text-transform: none" type="button" tabindex="-1" onclick="fill_all_money()" disabled>ε…¨ιƒ¨θ΄§εΈ</button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <label for="send_address" class="col-xs-2 control-label">Address</label>
+                                    <label for="send_address" class="col-xs-2 control-label">ε°ε€</label>
                                     <div class="col-xs-10 input-group" style="padding-left: 15px; padding-right: 15px;">
-                                        <input id="send_address" type="text" class="form-control"  placeholder="Paste receiving address here (Ctrl+V)..." maxlength="110"/>
+                                        <input id="send_address" type="text" class="form-control"  placeholder="η²θ΄΄ζ¥ζ”¶ε°ε€γ€‚γ€‚γ€‚" maxlength="110"/>
                                         <span class="input-group-btn">
                                             <button class="btn btn-primary btn-sm" style="text-transform: none" type="button" tabindex="-1" onclick="show_address_book()">
-                                                <i class="fa fa-address-book"></i> Address book...
+                                                <i class="fa fa-address-book"></i> ε°ε€η°Ώγ€‚γ€‚γ€‚
                                             </button>
                                         </span>
                                     </div>
@@ -1249,21 +1249,21 @@ html ="""
                                 <div class="col-sm-12">
                                     <label for="send_payment_id" class="col-xs-2 control-label">Payment ID</label>
                                     <div class="col-xs-10">
-                                        <input id="send_payment_id" type="text" class="form-control"  placeholder="Paste payment ID here (Ctrl+V, optional)..." maxlength="64"/>
+                                        <input id="send_payment_id" type="text" class="form-control"  placeholder="η²θ΄΄δ»ζ¬ΎIDοΌε―ι€‰οΌ‰γ€‚γ€‚γ€‚" maxlength="64"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12">
-                                    <label for="send_tx_desc" class="col-xs-2 control-label">Description</label>
+                                    <label for="send_tx_desc" class="col-xs-2 control-label">ζθΏ°</label>
                                     <div class="col-xs-10">
-                                        <input id="send_tx_desc" type="text" class="form-control"  placeholder="Tx description, saved to local wallet history (optional)..." maxlength="255"/>
+                                        <input id="send_tx_desc" type="text" class="form-control"  placeholder="δΊ¤ζ“θ―΄ζοΌδΏε­ε°ζ¬ε°ι’±ε…ε†ε²θ®°ε½•οΌε―ι€‰οΌ‰γ€‚γ€‚γ€‚" maxlength="255"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-6">
-                                    <label for="send_mixins" class="col-xs-4 control-label">Privacy <sup>1</sup></label>
+                                    <label for="send_mixins" class="col-xs-4 control-label">ιη§ <sup>1</sup></label>
                                     <div class="col-xs-8">
                                         <select id="send_mixins" class="form-control">
                                           <option value="12" selected>12 mixins (default)</option>
@@ -1277,14 +1277,14 @@ html ="""
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="send_priority" class="col-xs-4 control-label">Priority <sup>2</sup></label>
+                                    <label for="send_priority" class="col-xs-4 control-label">δΌε…ηΊ§ <sup>2</sup></label>
                                     <div class="col-xs-8">
                                         <select id="send_priority" class="form-control">
-                                          <option value="1" selected>Normal (x1 fee)</option>
-                                          <option value="2">High (x2 fee)</option>
-                                          <option value="4">Higher (x4 fee)</option>
-                                          <option value="20">Elevated (x20 fee)</option>
-                                          <option value="166">Forceful (x166 fee)</option>
+                                          <option value="1" selected>ζ™®ι€οΌx1θ΄Ήη”¨οΌ‰</option>
+                                          <option value="2">ει«οΌx2θ΄Ήη”¨οΌ‰</option>
+                                          <option value="4">ι«οΌx4θ΄Ήη”¨οΌ‰</option>
+                                          <option value="20">θ¶…ι«οΌx20θ΄Ήη”¨οΌ‰</option>
+                                          <option value="166">ζ―”θ¶…ι«θΏι«οΌx166θ΄Ήη”¨οΌ‰</option>
                                         </select>
                                        <!--<input id="send_fee_level_slider" type="text"/>--> 
                                     </div>
@@ -1294,15 +1294,15 @@ html ="""
                                 <div class="col-sm-12">
                                     <label class="col-xs-2 control-label sr-only">&nbsp;</label>
                                     <div class="col-xs-10">
-                                        <input id="checkbox_save_address" type="checkbox" /> <label for="checkbox_save_address">Save address (with payment id) to address book</label>
-                                        <label style="color:#999"><small>1. Higher mixin (ringsize) means higher transaction cost, using default mixin# (12) is recommended</small></label>
-                                        <label style="color:#999"><small>2. Only choose higher priority when there are many transactions in tx pool or "Normal" works just fine</small></label>
+                                        <input id="checkbox_save_address" type="checkbox" /> <label for="checkbox_save_address">ε°†ε°ε€οΌδΈδ»ζ¬ΎIDοΌ‰δΏε­ε°ε°ε€η°Ώ</label>
+                                        <label style="color:#999"><small>1γ€‚ζ›΄ι«η„mixinοΌη―ε¤§ε°οΌ‰δΌεΌ•θµ·ζ›΄ι«η„δΊ¤ζ“ζζ¬οΌε»Ίθ®®δ½Ώη”¨ι»θ®¤η„mixinεΊ¦οΌ12οΌ‰</small></label>
+                                        <label style="color:#999"><small>2γ€‚ε»Ίθ®®ε¨δΊ¤ζ“ζ± δΈ­η„δΊ‹ε΅θΎƒε¤ζ—¶ι€‰ζ‹©θΎƒι«η„δΌε…ηΊ§οΌεΉ³ζ—¶ε»Ίθ®®δ½Ώη”¨β€ζ™®ι€β€ηΊ§ε«</small></label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-12" style="text-align: center">
-                                    <button id="btn_send_tx" type="button" class="btn btn-success" onclick="send_tx()" disabled><i class="fa fa-send"></i> Send</button>
+                                    <button id="btn_send_tx" type="button" class="btn btn-success" onclick="send_tx()" disabled><i class="fa fa-send"></i> ζ±‡ζ¬Ύ</button>
                                 </div>
                             </div>
                         </fieldset>
@@ -1315,10 +1315,10 @@ html ="""
                                 <tr>
                                     <th>?</th>
                                     <th>I/O</th>
-                                    <th>Date/Time</th>
-                                    <th>Tx ID</th>
-                                    <th>Payment ID</th>
-                                    <th style="text-align: right">Amount</th>
+                                    <th>ζ—¶ι—΄</th>
+                                    <th>δΊ¤ζ“ID</th>
+                                    <th>δ»ζ¬ΎID</th>
+                                    <th style="text-align: right">ι‡‘ιΆ</th>
                                     <th>&nbsp;</th>
                                 </tr>
                             </thead>
@@ -1338,52 +1338,52 @@ html ="""
                     </div>
                 </div>
                 <div id="settings_tab" class="tab-pane fade">
-                    <h3>WALLET</h3>
+                    <h3>ι’±ε…</h3>
                     <div class="row">
                         <div class="col-sm-12 wallet-settings">
-                            <button id="btn_new_wallet" type="button" class="btn btn-primary" onclick="open_new_wallet()"><i class="fa fa-file"></i> New Wallet...</button>
-                            <button id="btn_view_seed" type="button" class="btn btn-primary" onclick="view_wallet_key('mnemonic')"><i class="fa fa-eye"></i> Mnemonic Seed...</button>
-                            <button id="btn_view_viewkey" type="button" class="btn btn-primary" onclick="view_wallet_key('view_key')"><i class="fa fa-key"></i> Viewkey...</button>
-                            <button id="btn_view_spendkey" type="button" class="btn btn-primary" onclick="view_wallet_key('spend_key')"><i class="fa fa-key"></i> Spendkey...</button>
+                            <button id="btn_new_wallet" type="button" class="btn btn-primary" onclick="open_new_wallet()"><i class="fa fa-file"></i> ζ–°ι’±ε…γ€‚γ€‚γ€‚</button>
+                            <button id="btn_view_seed" type="button" class="btn btn-primary" onclick="view_wallet_key('mnemonic')"><i class="fa fa-eye"></i> ε©θ®°η¬¦η§ε­γ€‚γ€‚γ€‚</button>
+                            <button id="btn_view_viewkey" type="button" class="btn btn-primary" onclick="view_wallet_key('view_key')"><i class="fa fa-key"></i> ζ¥η‹ε―†ι’¥γ€‚γ€‚γ€‚</button>
+                            <button id="btn_view_spendkey" type="button" class="btn btn-primary" onclick="view_wallet_key('spend_key')"><i class="fa fa-key"></i> ζ”―ε‡Ίε―†ι’¥γ€‚γ€‚γ€‚</button>
                         </div>
                     </div>
                     <hr style="margin-top:10px;margin-bottom:10px;">
-                    <h3 style="margin-bottom:10px">DAEMON</h3>
+                    <h3 style="margin-bottom:10px">ε®ζ¤θΏ›η¨‹</h3>
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="col-sm-4">
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-xs-12 control-label">Log level:</label>
+                                        <label class="col-xs-12 control-label">ζ—¥εΏ—ηΊ§ε«οΌ</label>
                                         <div class="col-xs-12">
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_log_level" id="daemon_log_level_0" value="0" onclick="set_daemon_log_level(0)" checked="">
-                                                Level 0 (default)
+                                                0ηΊ§ε«οΌι»θ®¤οΌ‰
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_log_level" id="daemon_log_level_1" value="1" onclick="set_daemon_log_level(1)">
-                                                Level 1
+                                                1ηΊ§ε«
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_log_level" id="daemon_log_level_2" value="2" onclick="set_daemon_log_level(2)">
-                                                Level 2
+                                                2ηΊ§ε«
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_log_level" id="daemon_log_level_3" value="3" onclick="set_daemon_log_level(3)">
-                                                Level 3
+                                                3ηΊ§ε«
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_log_level" id="daemon_log_level_4" value="4" onclick="set_daemon_log_level(4)">
-                                                Level 4
+                                                4ηΊ§ε«
                                               </label>
                                             </div>
                                         </div>
@@ -1393,36 +1393,36 @@ html ="""
                             <div class="col-sm-4">
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-xs-12 control-label">Block sync size:</label>
+                                        <label class="col-xs-12 control-label">εΊε—εζ­¥ε¤§ε°οΌ</label>
                                         <div class="col-xs-12">
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_block_sync_size" id="block_sync_size_10" value="10" onclick="set_block_sync_size(10)" checked="">
-                                                10 (default, for slow network)
+                                                10οΌι»θ®¤οΌη½‘η»εζ…ΆοΌ‰
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_block_sync_size" id="block_sync_size_20" value="20" onclick="set_block_sync_size(20)">
-                                                20 (for normal network)
+                                                20οΌζ™®ι€η½‘η»οΌ‰
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_block_sync_size" id="block_sync_size_50" value="50" onclick="set_block_sync_size(50)">
-                                                50 (for good network)
+                                                50οΌη½‘η»εεΏ«οΌ‰
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_block_sync_size" id="block_sync_size_100" value="100" onclick="set_block_sync_size(100)">
-                                                100 (for better network)
+                                                100οΌη½‘η»εΏ«οΌ‰
                                               </label>
                                             </div>
                                             <div class="radio">
                                               <label>
                                                 <input type="radio" name="daemon_block_sync_size" id="block_sync_size_200" value="200" onclick="set_block_sync_size(200)">
-                                                200 (for great network)
+                                                200οΌη½‘η»θ¶…εΏ«οΌ‰
                                               </label>
                                             </div>
                                         </div>
@@ -1433,7 +1433,7 @@ html ="""
                                 <form class="form-horizontal" id="speed_limit_form">
                                     <div class="form-group">
                                         <div class="col-xs-12">
-                                            <label class="col-xs-12 control-label">Up Speed Limit (kB/s):</label>
+                                            <label class="col-xs-12 control-label">δΈθ½½ι€εΊ¦ι™ε¶οΌkB/sοΌ‰οΌ</label>
                                             <select class="form-control" id="up_speed_limit_select">
                                                 <option value="512">512</option>
                                                 <option value="1024">1024</option>
@@ -1445,7 +1445,7 @@ html ="""
                                             </select>
                                         </div>
                                         <div class="col-xs-12" style="margin-top: 30px;">
-                                            <label class="col-xs-12 control-label">Down Speed Limit (kB/s):</label>
+                                            <label class="col-xs-12 control-label">δΈ‹θ½½ι€εΊ¦ι™ε¶οΌkB/sοΌ‰οΌ</label>
                                             <select class="form-control" id="down_speed_limit_select">
                                                 <option value="512">512</option>
                                                 <option value="1024">1024</option>
@@ -1460,20 +1460,20 @@ html ="""
                                 </form>
                             </div>
                             <div class="col-sm-12 wallet-settings" style="margin-top: 0px; text-align:center;">
-                                <button id="btn_restart_daemon" type="button" class="btn btn-primary" onclick="restart_daemon()"><i class="fa fa-refresh"></i> Apply (Restart Daemon)</button>
-                                <button id="btn_view_log" type="button" class="btn btn-primary" onclick="app_hub.view_daemon_log()"><i class="fa fa-file"></i> View Log...</button>
+                                <button id="btn_restart_daemon" type="button" class="btn btn-primary" onclick="restart_daemon()"><i class="fa fa-refresh"></i> εΊ”η”¨οΌι‡ε―ε®ζ¤θΏ›η¨‹οΌ‰</button>
+                                <button id="btn_view_log" type="button" class="btn btn-primary" onclick="app_hub.view_daemon_log()"><i class="fa fa-file"></i> ζ¥η‹ζ—¥εΏ—γ€‚γ€‚γ€‚</button>
                             </div>
                         </div>
                     </div>
                     <hr style="margin-top:10px;margin-bottom:0px;">
                     <div class="row">
                         <div class="col-sm-12 form-group" style="margin-bottom: 0px; margin-top: 20px; text-align: center">
-                            <input id="minimize_to_tray_chk" type="checkbox" value="" checked="checked"> <label class="control-label" for="minimize_to_tray_chk">Close wallet to notification area (system tray)</label>
+                            <input id="minimize_to_tray_chk" type="checkbox" value="" checked="checked"> <label class="control-label" for="minimize_to_tray_chk">ε…³ι—­ε°ι€η¥εΊεοΌη³»η»ζ‰η›οΌ‰</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12" style="margin-top: 10px;text-align: center">
-                            <button id="btn_about" type="button" class="btn btn-primary" onclick="about_app()"><i class="fa fa-user"></i> About...</button>
+                            <button id="btn_about" type="button" class="btn btn-primary" onclick="about_app()"><i class="fa fa-user"></i> ε…³δΊ...</button>
                         </div>
                     </div>
                 </div>
@@ -1482,7 +1482,7 @@ html ="""
                 <div id="progress_bar" class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%;">
                     <span id="progress_bar_text_high"></span>
                 </div>
-                <span id="progress_bar_text_low"><i class="fa fa-flash"></i>&nbsp;&nbsp;Connecting to network...</span>
+                <span id="progress_bar_text_low"><i class="fa fa-flash"></i>&nbsp;&nbsp;θΏζ¥η½‘η»γ€‚γ€‚γ€‚</span>
             </div>
         </div>
         
@@ -1491,8 +1491,8 @@ html ="""
                 <div class="modal-content">
                     <div class="modal-body" id="app_model_body"></div>
                     <div class="modal-footer">
-                        <button id="btn_copy" type="button" class="btn btn-primary" onclick="copy_dialog_content()">Copy</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button id="btn_copy" type="button" class="btn btn-primary" onclick="copy_dialog_content()">ε¤ε¶</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">ε…³ι—­</button>
                     </div>
                 </div>
             </div>
@@ -1539,13 +1539,13 @@ html ="""
         <script id="recent_tx_row_templ" type="x-tmpl-mustache">
             <div class="col-sm-12">
                 <div class="col-xs-10" style="padding-right:0">
-                    <p class="tx-list tx-{{cls_in_out}}"><i class="fa fa-{{ tx_fa_icon }}"></i> ({{tx_direction}}) <span class="tx-list txid"><a href="javascript:open_link('https://explorer.sumokoin.com/tx/{{ tx_id }}')" title="View on blockchain explorer">{{ tx_id }}</a></span></p>
+                    <p class="tx-list tx-{{cls_in_out}}"><i class="fa fa-{{ tx_fa_icon }}"></i> ({{tx_direction}}) <span class="tx-list txid"><a href="javascript:open_link('https://explorer.sumokoin.com/tx/{{ tx_id }}')" title="ε¨εΊε—ι“Ύζµθ§ε™¨δΈζ¥η‹">{{ tx_id }}</a></span></p>
                     Payment ID: <span class="tx-list tx-payment-id">{{ tx_payment_id }}</span><br/>
-                    Height: <span class="tx-list tx-height">{{ tx_height }}</span>  Date: <span class="tx-list tx-date">{{ tx_date }}</span> Time: <span class="tx-list tx-time">{{ tx_time }}</span> Status: <span class="tx-list tx-status">{{ tx_status }}</span><br/>
+                    Height: <span class="tx-list tx-height">{{ tx_height }}</span>  Date: <span class="tx-list tx-date">{{ tx_date }}</span> Time: <span class="tx-list tx-time">{{ tx_time }}</span> η¶ζ€οΌ <span class="tx-list tx-status">{{ tx_status }}</span><br/>
                     <p style="font-size:140%">Amount: <span class="tx-list tx-{{cls_in_out}} tx-amount {{tx_lock_cls}}">{{{tx_lock_icon}}}{{ tx_amount }}</span> <span class="{{ tx_fee_hide }}">Fee:</span> <span class="tx-list tx-{{cls_in_out}} tx-fee {{ tx_fee_hide }}">{{ tx_fee }}</span></p> 
                 </div>
                 <div class="col-xs-2">
-                    <button class="btn btn-warning" onclick="view_tx_detail('{{ tx_height }}', '{{ tx_id }}')">Details</button>
+                    <button class="btn btn-warning" onclick="view_tx_detail('{{ tx_height }}', '{{ tx_id }}')">η»†θ‚</button>
                 </div>
                 <br clear="both"/><hr style="margin: 0 0 10px"/>
             </div>
@@ -1553,17 +1553,17 @@ html ="""
         
         <script id="tx_detail_templ" type="x-tmpl-mustache">
             <p class="tx-list tx-{{cls_in_out}}" style="font-size: 90%"><i class="fa fa-{{ tx_fa_icon }}"></i> {{tx_direction}}<br>
-                <span class="tx-list txid"><a href="javascript:open_link('https://explorer.sumokoin.com/tx/{{ tx_id }}')" title="View on blockchain explorer">{{ tx_id }}</a></span>
+                <span class="tx-list txid"><a href="javascript:open_link('https://explorer.sumokoin.com/tx/{{ tx_id }}')" title="ε¨εΊε—ι“Ύζµθ§ε™¨δΈζ¥η‹">{{ tx_id }}</a></span>
             </p>
             <ul style="font-size: 90%">
                 <li>Payment ID: <span class="tx-list tx-payment-id">{{ tx_payment_id }}</span></li>
-                <li>Height: <span class="tx-list tx-height">{{ tx_height }}</span>  Date: <span class="tx-list tx-date">{{ tx_date }}</span> Time: <span class="tx-list tx-time">{{ tx_time }}</span></li>
+                <li>Height: <span class="tx-list tx-height">{{ tx_height }}</span>  Date: <span class="tx-list tx-date">{{ tx_date }}</span> ζ—¶ι—΄οΌ <span class="tx-list tx-time">{{ tx_time }}</span></li>
                 <li>Status: <span class="tx-list tx-status">{{ tx_status }}</span></li>
-                <li>Amount: <span class="tx-list tx-{{cls_in_out}} tx-amount {{tx_lock_cls}}">{{{tx_lock_icon}}}{{ tx_amount }}</span> <span class="{{ tx_fee_hide }}">Fee:</span> <span class="tx-list tx-{{cls_in_out}} tx-fee {{ tx_fee_hide }}">{{ tx_fee }}</span></li>
+                <li>Amount: <span class="tx-list tx-{{cls_in_out}} tx-amount {{tx_lock_cls}}">{{{tx_lock_icon}}}{{ tx_amount }}</span> <span class="{{ tx_fee_hide }}">θ΄Ήη”¨οΌ </span> <span class="tx-list tx-{{cls_in_out}} tx-fee {{ tx_fee_hide }}">{{ tx_fee }}</span></li>
                 <li class="{{ tx_note_hide }}">Tx Note: <span class="tx-list tx-note">{{ tx_note }}</span></li>
             </ul>
             <div class="tx-destinations {{ tx_destinations_hide }}">
-                <span style="margin-left:10px;">Destination(s):</span>
+                <span style="margin-left:10px;">η»η‚ΉοΌ </span>
                 <ul>
                     {{{ tx_destinations }}}
                 </ul>
@@ -1575,7 +1575,7 @@ html ="""
                 <td width="160px" class="address-book-row" data-address="{{ address }}" data-payment-id="{{ payment_id }}"><a href="#" title="{{ address }}">{{ address_short }}</a></td>
                 <td width="150px" class="address-book-row" data-address="{{ address }}" data-payment-id="{{ payment_id }}">{{ payment_id_short }}</a></td>
                 <td width="200px" class="address-book-row" data-address="{{ address }}" data-payment-id="{{ payment_id }}">{{ desc_short }}</a></td>
-                <td width="50px"><button type="button" class="btn btn-default btn-xs" onclick="delete_address({{ index }})"><i class="fa fa-remove"></i> Delete</button></td>
+                <td width="50px"><button type="button" class="btn btn-default btn-xs" onclick="delete_address({{ index }})"><i class="fa fa-remove"></i> ε ι™¤</button></td>
             </tr>
         </script>
         
@@ -1587,7 +1587,7 @@ html ="""
                 <td>{{ tx_id_short }}</td>
                 <td>{{ tx_payment_id }}</td>
                 <td align="right">{{ tx_amount }}</td>
-                <td><button class="btn btn-default btn-sm" onclick="view_tx_detail('{{ tx_height }}', '{{ tx_id }}')">Details</button></td>
+                <td><button class="btn btn-default btn-sm" onclick="view_tx_detail('{{ tx_height }}', '{{ tx_id }}')">η»†θ‚</button></td>
             </tr>
         </script>
         
@@ -1611,7 +1611,7 @@ html ="""
                 <td align="right">{{ address_index }}</td>
                 <td align="right">
                     <button class="btn btn-primary btn-sm" tabindex="-1" onclick="copy_subaddress(this, '{{ address }}')" data-toggle="tooltip" data-placement="bottom" data-trigger="manual" title="Address copied"><i class="fa fa-copy"></i></button>
-                    <button class="btn btn-primary btn-sm" tabindex="-1" onclick="show_qrcode('{{ address }}')" title="Show QR code"><i class="fa fa-qrcode"></i></button>    
+                    <button class="btn btn-primary btn-sm" tabindex="-1" onclick="show_qrcode('{{ address }}')" title="ζΎη¤ΊδΊη»΄η "><i class="fa fa-qrcode"></i></button>    
                 </td>
             </tr>
         </script>
@@ -1624,7 +1624,7 @@ html ="""
                 <td align="right">{{ address_index }}</td>
                 <td align="right">
                     <button class="btn btn-primary btn-sm" tabindex="-1" onclick="copy_subaddress(this, '{{ address }}')" data-toggle="tooltip" data-placement="bottom" data-trigger="manual" title="Address copied"><i class="fa fa-copy"></i></button>
-                    <button class="btn btn-primary btn-sm" tabindex="-1" onclick="show_qrcode('{{ address }}')" title="Show QR code"><i class="fa fa-qrcode"></i></button>    
+                    <button class="btn btn-primary btn-sm" tabindex="-1" onclick="show_qrcode('{{ address }}')" title="ζΎη¤ΊδΊη»΄η "><i class="fa fa-qrcode"></i></button>    
                 </td>
             </tr>
         </script>
